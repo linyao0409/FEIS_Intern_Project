@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.font as tkfont
 import pandas as pd
-
+# Fixed income automatic quotation system 
 file_path = "ISIN_code_test.xlsx"  # 記得替換成你的Excel檔案路徑
 df = pd.read_excel(file_path, engine="openpyxl")
 
