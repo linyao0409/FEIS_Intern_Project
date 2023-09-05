@@ -1,2 +1,0 @@
-# FEIS_Intern_Project
-FI_automatic_quotation_system

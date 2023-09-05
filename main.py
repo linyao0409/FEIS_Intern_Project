@@ -209,13 +209,13 @@ observe_isin_button.grid(row=0,column=8,padx=10,pady=10)
 #                           page2 - > creating table
 ######################################################################################################
 #import time
-from p2 import process_data_temp # ~~~~
+from page2_function import process_data # ~~~~
 def page2_wraper():
     global text_p2_response
     text_p2_response.config(text="製作中...",fg="red")
     root.update()  # 更新界面，以便立即显示“製作中”状态
     ##time.sleep(1)  # 等待一秒
-    process_data_temp()# ~~~~
+    process_data()# ~~~~
     text_p2_response.config(text="前置報表製作完成!",fg="Black")
 #--------------------------------------------------------------------------
 page2 = ttk.Frame(notebook)
@@ -239,9 +239,10 @@ page3.configure(style="Page1.TFrame")
 ########################################################
 # 分頁三函式
 #import linyaoTable from p3
+from page3_esun_function import esun_table
 def create_company_table(esun,dbs,cathay,sunny,linyao):
     if esun:
-        pass
+        esun_table()
     if dbs:
         pass
     if cathay:
@@ -297,7 +298,7 @@ generate_bank_report_button.pack()
 ######################################################################################################
 #                          page4 - >第四個分頁: mail table 
 ######################################################################################################
-import page4_1 # 引入第四分頁寄信函式
+import page4_function # 引入第四分頁寄信函式
 def mail_table_to_bank():
     L = [
         ('玉山銀行', esun_var_p3.get()),
@@ -308,7 +309,7 @@ def mail_table_to_bank():
     ]
     for bank,index in L:
         if index:
-            page4_1.sendmail(bank)
+            page4_function.sendmail(bank)
     print(f"done")
      
 #---------------------------------------------------------

@@ -1,6 +1,6 @@
 
+
 ######################################## 匯入套件######################################## import pandas as pd
-'''
 import openpyxl
 import xlrd
 import os
@@ -17,7 +17,6 @@ from email.mime.multipart import MIMEMultipart
 import blpapi
 from xbbg import blp
 import pandas as pd
-'''
 ######################################## Bloomberg連接########################################
 
 def process_data():
@@ -34,23 +33,20 @@ def process_data():
     ################# load the Isin table#################################
     file_path = "ISIN_code_test.xlsx"  # 記得替換成你的Excel檔案路徑
     df = pd.read_excel(file_path, engine="openpyxl")
+    df["Corp"] = df["ISIN"] + " Corp"
+    df.set_index(df["Corp"],inplace = True)
 
-    # 將第一列的數據設置為索引
-    df.set_index(df.columns[0], inplace=True)
-
-    df = (df.iloc[:,:0])
-
-    #print(df)
     ############長度###########################################
     length = len(df.index)
-    isinIndex_series = df.index
+    isinIndex_series = df["ISIN"]
     isinIndex = list(isinIndex_series)
     ########################################################################
     # R--Corp 
     #R1 = "Corp"
-    df["Corp"] = df.index + " Corp"
+    df["Corp"] = df["ISIN"] + " Corp"
     isinCorp = (df["Corp"]).tolist()
     df.index=isinCorp
+    #print(df)
 
     ################################################################
 
@@ -289,7 +285,7 @@ def process_data():
     df["int_acc"] = df["int_acc"] * 100
     #print(df.iloc[:,-12:])
     ##################################################################
-
+    #讀入昨天檔案取得昨天BID&ASK
     y_df = pd.read_excel("yesterday.xlsx",engine="openpyxl")
     y_df.set_index(y_df.columns[0],inplace=True)
     y_B = y_df["PX_BID"]
@@ -303,30 +299,23 @@ def process_data():
     #print(df.iloc[:,-14:])
 
 
-    df.iloc[0, -2] = 78.21
+    #df.iloc[0, -2] = 78.21
 
     df["bid_difference"] = df["PX_BID"] - df["bid_yesterday"]
     df["ask_difference"] = df["PX_ASK"] - df["ask_yesterday"]
 
-    # 如果你想保留差值的正负，注释掉下面这行代码
+    # 取絕對值
     df["bid_difference"] = df["bid_difference"].abs()
     df["ask_difference"] = df["ask_difference"].abs()
 
-    #print(df.iloc[:, -16:])  # 打印包含差值的列
 
-    output_file = f"table_two_{str(datetime.date.today())}"
+    output_file = f"table_two_{str(datetime.date.today())}.xlsx"
     df.to_excel(output_file, index=False)# 將DataFrame輸出成Excel
     print(f"{output_file} done")
 
 
 
 
-def process_data_temp():
-    for i in range(10000):
-        for j in range(10000):
-            i+=j
-    #print("process_data_temp->finish")
-
 if __name__ == "__main__":
-    #process_data()
-    process_data_temp()
+    process_data()
+    

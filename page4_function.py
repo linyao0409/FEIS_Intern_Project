@@ -57,7 +57,8 @@ def sendmail(bankname):
     ch_name_to_en_name = {"林曜銀行":"LINYAO","玉山銀行":"ESUN","星展銀行":"DBS","國泰世華":"CATHAY","陽信銀行":"SUNNY"}
 
     # 添加附件 "2023-08-24LINYAO.xlsx"
-    attachment_path = f"{str(datetime.date.today())}{ch_name_to_en_name[bankname]}.xlsx"
+    attachment_path = f"{ch_name_to_en_name[bankname]}_table_{str(datetime.date.today())}.xlsx"
+    #attachment_path = f"{str(datetime.date.today())}{ch_name_to_en_name[bankname]}.xlsx"
     with open(attachment_path, "rb") as attachment_file:
         attachment = MIMEBase(maintype, subtype)
         attachment.set_payload(attachment_file.read())
